@@ -1,0 +1,232 @@
+/* Grunninnstillinger */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: #f7f9fc;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Hovedboksen */
+.container {
+    background: white;
+
+    padding: 35px 50px 45px;
+
+    border-radius: 18px;
+
+    box-shadow: 0 10px 35px rgba(30, 50, 80, 0.12);
+
+    text-align: center;
+}
+
+
+/* Overskrift */
+h1 {
+    margin: 0 0 10px;
+
+    font-size: 42px;
+    color: #314765;
+}
+
+
+/* Teksten under overskriften */
+.description {
+    margin-bottom: 30px;
+
+    font-size: 16px;
+    color: #718096;
+}
+
+
+/* ---------------- */
+/*   SUDOKU-BRETT   */
+/* ---------------- */
+
+.sudoku {
+    display: grid;
+
+    grid-template-columns: repeat(9, 62px);
+    grid-template-rows: repeat(9, 62px);
+
+    width: fit-content;
+
+    margin: 0 auto 30px;
+
+    /* Mørk kant rundt hele brettet */
+    border: 4px solid #314765;
+
+    background: white;
+}
+
+
+/* Hver enkelt rute */
+.sudoku input {
+    width: 62px;
+    height: 62px;
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+    border-right: 1px solid #b8c4d3;
+    border-bottom: 1px solid #b8c4d3;
+
+    background: #ffffff;
+
+    text-align: center;
+
+    font-size: 32px;
+    font-weight: 400;
+
+    color: #314765;
+
+    outline: none;
+
+    caret-color: #314765;
+
+    transition: background 0.15s;
+}
+
+
+/* Når musen er over en rute */
+.sudoku input:hover {
+    background: #edf5fc;
+}
+
+
+/* Ruten du har klikket på */
+.sudoku input:focus {
+    background: #b9daf5;
+}
+
+
+/* ------------------------- */
+/* TYKKE 3x3 SKILLELINJER    */
+/* ------------------------- */
+
+
+/* Etter kolonne 3 og 6 */
+.sudoku input:nth-child(9n + 3),
+.sudoku input:nth-child(9n + 6) {
+    border-right: 4px solid #314765;
+}
+
+
+/* Etter rad 3 */
+.sudoku input:nth-child(n + 19):nth-child(-n + 27) {
+    border-bottom: 4px solid #314765;
+}
+
+
+/* Etter rad 6 */
+.sudoku input:nth-child(n + 46):nth-child(-n + 54) {
+    border-bottom: 4px solid #314765;
+}
+
+
+/* Fjern unødvendig kant helt til høyre */
+.sudoku input:nth-child(9n) {
+    border-right: none;
+}
+
+
+/* Fjern unødvendig kant nederst */
+.sudoku input:nth-child(n + 73) {
+    border-bottom: none;
+}
+
+
+/* ---------------- */
+/*      KNAPPER     */
+/* ---------------- */
+
+button {
+    border: none;
+
+    background: #314765;
+    color: white;
+
+    padding: 14px 32px;
+
+    border-radius: 9px;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+button:hover {
+    background: #426184;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 5px 12px rgba(49, 71, 101, 0.2);
+}
+
+
+button:active {
+    transform: translateY(0);
+}
+
+
+/* Meldingen etter løsning */
+.message {
+    margin-top: 22px;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    color: #314765;
+}
+
+
+/* Mobil */
+@media (max-width: 650px) {
+
+    .container {
+        padding: 25px 12px;
+        width: 100%;
+        border-radius: 0;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    .sudoku {
+        grid-template-columns: repeat(9, 39px);
+        grid-template-rows: repeat(9, 39px);
+    }
+
+    .sudoku input {
+        width: 39px;
+        height: 39px;
+
+        font-size: 22px;
+    }
+}
+/* Rad, kolonne og 3x3-boks som er valgt */
+.sudoku input.highlight {
+    background: #e2edf7;
+}
+
+
+/* Ruten du faktisk har klikket på */
+.sudoku input.selected {
+    background: #acd4f5;
+}

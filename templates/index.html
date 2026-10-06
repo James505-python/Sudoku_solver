@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Arthur's Sudoku-løser</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+
+<body>
+
+    <main class="container">
+
+        <h1>Arthur's Sudoku-løser</h1>
+
+        <p class="description">
+            Skriv inn tallene i Sudokuen og la de tomme rutene stå blanke.
+        </p>
+
+
+        <form method="POST">
+
+            <div class="sudoku">
+
+                {% for row in range(9) %}
+
+                    {% for col in range(9) %}
+
+                        <input
+                            type="text"
+                            inputmode="numeric"
+                            maxlength="1"
+
+                            name="cell-{{ row }}-{{ col }}"
+
+                            data-row="{{ row }}"
+                            data-col="{{ col }}"
+
+                            value="{% if board[row][col] != 0 %}{{ board[row][col] }}{% endif %}"
+
+                            oninput="this.value = this.value.replace(/[^1-9]/g, '')"
+
+                            autocomplete="off"
+                        >
+
+                    {% endfor %}
+
+                {% endfor %}
+
+            </div>
+
+
+            <button type="submit">
+                Løs Sudoku
+            </button>
+
+        </form>
+
+
+        {% if message %}
+
+            <p class="message">
+                {{ message }}
+            </p>
+
+        {% endif %}
+
+    </main>
+
+
+    <script>
+
+        // Finn alle rutene i Sudoku-brettet
+        const cells = document.querySelectorAll(".sudoku input");
+
+
+        // Kjør når vi klikker på en rute
+        cells.forEach(cell => {
+
+            cell.addEventListener("focus", function () {
+
+                // Fjern gammel markering
+                cells.forEach(c => {
+
+                    c.classList.remove("highlight");
+                    c.classList.remove("selected");
+
+                });
+
+
+                // Finn raden og kolonnen vi klikket på
+                const selectedRow =
+                    Number(this.dataset.row);
+
+                const selectedCol =
+                    Number(this.dataset.col);
+
+
+                // Finn hvilken 3x3-boks ruten tilhører
+                const boxRow =
+                    Math.floor(selectedRow / 3);
+
+                const boxCol =
+                    Math.floor(selectedCol / 3);
+
+
+                // Gå gjennom alle rutene
+                cells.forEach(c => {
+
+                    const row =
+                        Number(c.dataset.row);
+
+                    const col =
+                        Number(c.dataset.col);
+
+
+                    // Sjekk om ruten er på samme rad
+                    const sameRow =
+                        row === selectedRow;
+
+
+                    // Sjekk om ruten er i samme kolonne
+                    const sameCol =
+                        col === selectedCol;
+
+
+                    // Sjekk om ruten er i samme 3x3-boks
+                    const sameBox =
+                        Math.floor(row / 3) === boxRow &&
+                        Math.floor(col / 3) === boxCol;
+
+
+                    // Marker ruten
+                    if (sameRow || sameCol || sameBox) {
+
+                        c.classList.add("highlight");
+
+                    }
+
+                });
+
+
+                // Gjør ruten vi klikket på enda tydeligere
+                this.classList.add("selected");
+
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>
